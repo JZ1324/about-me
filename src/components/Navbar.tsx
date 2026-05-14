@@ -6,7 +6,7 @@ export default function Navbar() {
     <header className="fixed top-0 left-0 z-50 w-full px-10 py-10 pointer-events-none">
       <nav className="mx-auto flex max-w-[1400px] items-center justify-between pointer-events-auto">
         <motion.a 
-          href="/" 
+          href={import.meta.env.BASE_URL} 
           whileHover={{ scale: 1.1 }}
           className="pointer-events-auto"
         >
