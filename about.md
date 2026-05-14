@@ -8,11 +8,11 @@ The site is designed to feel more like an editorial or gallery piece than a stan
 
 ## Main Sections
 
-- Hero: a high-impact opening section with oversized type and a strong brand statement.
+- Hero: a high-impact opening section with oversized type, a brand statement, and scroll-based parallax.
 - About: a profile section that explains the design philosophy and creative approach.
-- Timeline: a journey section that likely highlights milestones, experience, or growth.
+- Timeline: a journey section for milestones, experience, or growth.
 - Toolkit: a curated view of skills, interests, and disciplines.
-- Polaroid Strip: a more playful visual section that adds personality and texture.
+- Polaroid Strip: a horizontal visual gallery that adds personality and texture.
 - Contact: a direct call to action with email and external links.
 - Footer: the closing section that wraps up the page.
 
@@ -21,9 +21,9 @@ The site is designed to feel more like an editorial or gallery piece than a stan
 - Smooth scrolling powered by Lenis for a refined, fluid feel.
 - Scroll-based motion and parallax effects using Motion.
 - Animated glitch-style typography for visual emphasis.
-- A 3D background layer to add depth and atmosphere.
+- A layered 3D background with floating elements and frames.
 - Custom cursor behavior for a more immersive interaction model.
-- Sticky navigation and section links for quick movement through the page.
+- Sticky navigation and a section rail for quick movement through the page.
 - An embedded music player that adds a personal, ambient layer.
 - Responsive layout that adapts across desktop and mobile widths.
 
