@@ -16,7 +16,7 @@ export default function PolaroidStrip() {
   const opacity = useTransform(scrollYProgress, [0, 0.04, 0.96, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={containerRef} className="relative h-[560vh]">
+    <section ref={containerRef} className="relative h-[680vh]">
       <motion.div style={{ opacity }} className="sticky top-0 flex h-screen items-center overflow-hidden">
         <div className="section relative w-full">
           <div className="absolute inset-x-0 top-1/2 h-px bg-white/10" />
@@ -24,7 +24,7 @@ export default function PolaroidStrip() {
             style={{ x }}
             className="relative flex items-center gap-8 px-[8vw]"
           >
-            {Array.from({ length: 22 }).map((_, index) => (
+            {Array.from({ length: 30 }).map((_, index) => (
               <motion.figure
                 key={index}
                 initial={{ y: index % 2 === 0 ? 18 : -12, rotate: index % 2 === 0 ? 2 : -2 }}
