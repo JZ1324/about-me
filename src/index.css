@@ -1,24 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 :root {
-  /* New User Requested Palette */
-  --background: #f2f1ef; 
-  --foreground: #723e31; 
-  --accent-gold: #d9b18e; 
-  --accent-brass: #a67564; 
-  --accent-stone: #d9d2cc;
+  --background: #0a0a0b;
+  --background-elevated: rgba(18, 18, 20, 0.72);
+  --foreground: #f2ede4;
+  --foreground-soft: rgba(242, 237, 228, 0.72);
+  --muted: rgba(242, 237, 228, 0.44);
+  --accent-gold: #c8a26a;
+  --accent-brass: #8d6d4d;
+  --accent-stone: rgba(242, 237, 228, 0.08);
+  --accent-line: rgba(200, 162, 106, 0.22);
   
-  --header-height: 80px;
+  --header-height: 88px;
   
-  --font-display: "Space Grotesk", sans-serif;
+  --font-display: "Cormorant Garamond", serif;
   --font-sans: "Inter", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  --font-mono: "IBM Plex Mono", monospace;
 }
 
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
   --color-gold: var(--accent-gold);
   --color-brass: var(--accent-brass);
   --color-red: var(--accent-red);
@@ -34,8 +38,12 @@ body {
   overflow-x: hidden;
   overscroll-behavior: none; /* Prevent overscroll */
   min-height: 100vh;
-  color-scheme: light;
-  line-height: 1.7;
+  color-scheme: dark;
+  line-height: 1.65;
+  background-image:
+    radial-gradient(circle at top, rgba(200, 162, 106, 0.14), transparent 34%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.04), transparent 30%),
+    linear-gradient(180deg, #111114 0%, #09090a 45%, #070708 100%);
 }
 
 @media (pointer: fine) {
@@ -87,23 +95,24 @@ html {
 /* Minimalism & Craftsmanship */
 h1, h2, h3, h4 {
   font-family: var(--font-display);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.035em;
 }
 
 .section {
-  padding: 8rem 2rem;
-  max-width: 1200px;
+  width: min(100%, 1500px);
+  padding: clamp(7rem, 12vw, 12rem) clamp(1.5rem, 4vw, 3rem);
   margin: 0 auto;
 }
 
 .glass {
-  background: rgba(242, 241, 239, 0.03);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(217, 210, 204, 0.1);
+  background: var(--background-elevated);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(242, 237, 228, 0.08);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
 }
 
 .text-muted {
-  color: var(--accent-brown);
+  color: var(--muted);
 }
 
 /* Animations & Transitions */
@@ -132,5 +141,24 @@ body {
 @layer utilities {
   .perspective-1000 {
     perspective: 1000px;
+  }
+
+  .editorial-frame {
+    border: 1px solid rgba(242, 237, 228, 0.08);
+    background: rgba(255, 255, 255, 0.015);
+    backdrop-filter: blur(14px);
+  }
+
+  .section-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: rgba(242, 237, 228, 0.5);
+  }
+
+  .section-rule {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(200, 162, 106, 0.35), transparent);
   }
 }

@@ -2,71 +2,60 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { useRef } from 'react';
 
 const collection = [
-  { group: 'Instruments', items: ['Aural Perception', 'Piano (Classical)', 'Alto Saxophone', 'Violin & Viola'] },
-  { group: 'Humanities', items: ['Classic Literature', 'Strategic Theory', 'Art History', 'Philosophy'] },
-  { group: 'Digital Arts', items: ['React / Next.js', '3D WebGL', 'Typography', 'Motion Design'] },
+  { group: 'Instruments', items: ['Aural perception', 'Piano', 'Alto saxophone', 'Violin & viola'] },
+  { group: 'Humanities', items: ['Literature', 'Strategic theory', 'Art history', 'Philosophy'] },
+  { group: 'Digital arts', items: ['React', 'Motion', 'Three.js', 'Typography'] },
 ];
 
 export default function ToolkitSection() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const bgY = useTransform(scrollYProgress, [0, 1], [-50, 50]);
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start end', 'end start'] });
+  const drift = useTransform(scrollYProgress, [0, 1], [-30, 30]);
 
   return (
-    <section id="toolkit" ref={containerRef} className="section px-12 md:px-24 py-80 relative overflow-hidden">
-      {/* Parallax Background */}
-      <motion.div 
-        style={{ y: bgY }}
-        className="absolute top-0 right-0 text-[18rem] font-black text-foreground/[0.02] whitespace-nowrap pointer-events-none select-none uppercase -rotate-90 origin-top-right translate-x-1/2"
+    <section id="toolkit" ref={containerRef} className="section relative overflow-hidden">
+      <motion.div
+        style={{ x: drift }}
+        className="pointer-events-none absolute -right-12 top-8 text-[clamp(5rem,16vw,14rem)] font-display italic text-foreground/[0.035] whitespace-nowrap"
       >
-        CANONICAL ARTIFACTS
+        Toolkit
       </motion.div>
 
-      <div className="max-w-6xl mx-auto relative z-10">
-        <motion.div
-           initial={{ opacity: 0, y: 30 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-           className="mb-24"
-        >
-          <span className="text-[10px] uppercase tracking-[0.5em] text-gold font-bold mb-8 block">03 / Library</span>
-          <h2 className="text-5xl md:text-7xl font-display font-light text-foreground leading-tight tracking-tighter">
-             The Personal <span className="italic font-serif">Canon</span>.
+      <div className="grid gap-16">
+        <div className="space-y-8 max-w-2xl">
+          <p className="section-kicker">03 / Archive</p>
+          <h2 className="font-display text-[clamp(3rem,6vw,5.6rem)] leading-[0.9] tracking-[-0.05em] uppercase">
+            A curated creative arsenal.
           </h2>
-        </motion.div>
+          <div className="section-rule w-24" />
+          <p className="text-foreground-soft text-lg leading-8 max-w-[36ch]">
+            Tools and influences are presented as a disciplined set of references, not a crowded skill wall.
+          </p>
+        </div>
 
-        <div className="grid md:grid-cols-3 gap-20">
-          {collection.map((cat, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 40 }}
+        <div className="grid gap-6 lg:grid-cols-3">
+          {collection.map((category, index) => (
+            <motion.article
+              key={category.group}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 1.2, delay: i * 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="relative p-10 bg-foreground/[0.01] border border-foreground/[0.03] backdrop-blur-sm group hover:border-gold/20 transition-all duration-700"
+              viewport={{ once: true, margin: '-10% 0px' }}
+              transition={{ duration: 1, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
+              className="editorial-frame rounded-[1.75rem] p-7 md:p-9"
             >
-              <h3 className="text-[11px] uppercase tracking-[0.3em] font-bold text-gold/60 mb-10 border-b border-gold/10 pb-4 group-hover:text-gold transition-colors duration-500">{cat.group}</h3>
-              <ul className="space-y-6">
-                {cat.items.map((item, j) => (
-                  <motion.li 
-                    key={j} 
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: (i * 0.2) + (j * 0.1) }}
-                    className="text-xl md:text-2xl font-light text-foreground/40 hover:text-foreground hover:pl-4 transition-all cursor-crosshair relative flex items-center gap-4 group/item"
-                  >
-                    <div className="w-0 group-hover/item:w-4 h-px bg-gold transition-all duration-500" />
-                    {item}
-                  </motion.li>
+              <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-4 mb-7">
+                <p className="font-mono text-[0.6rem] uppercase tracking-[0.4em] text-muted">{category.group}</p>
+                <span className="h-px w-10 bg-gold/40" />
+              </div>
+              <ul className="space-y-5">
+                {category.items.map((item) => (
+                  <li key={item} className="flex items-start gap-4 text-foreground text-xl md:text-2xl leading-[1.35]">
+                    <span className="mt-3 h-px w-5 bg-gold/60 shrink-0" />
+                    <span>{item}</span>
+                  </li>
                 ))}
               </ul>
-            </motion.div>
+            </motion.article>
           ))}
         </div>
       </div>
