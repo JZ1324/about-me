@@ -21,12 +21,12 @@ import Cursor from "@/src/components/Cursor";
 export default function App() {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.5,
-      lerp: 0.1,
+      duration: 2.5,
+      lerp: 0.04,
       infinite: false,
       smoothWheel: true,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.5,
+      wheelMultiplier: 0.6,
+      touchMultiplier: 0.8,
     });
 
     function raf(time: number) {

@@ -107,22 +107,22 @@ function TimelineItem({ event, index }: { event: typeof events[0], index: number
   // Wider entrance/exit windows for readability
   // 0.5 is when item is center screen
   const opacity = useTransform(smoothProgress, 
-    [0.15, 0.35, 0.65, 0.85], 
+    [0.1, 0.25, 0.75, 0.9], 
     [0, 1, 1, 0]
   );
   
   const scale = useTransform(smoothProgress, 
-    [0.2, 0.5, 0.8], 
+    [0.15, 0.5, 0.85], 
     [0.9, 1, 0.9]
   );
 
   const xOffset = useTransform(smoothProgress,
-    [0.2, 0.5, 0.8],
+    [0.15, 0.5, 0.85],
     [20, 0, -20]
   );
 
   const zRotation = useTransform(smoothProgress,
-    [0.2, 0.5, 0.8],
+    [0.15, 0.5, 0.85],
     [1, 0, -1]
   );
 
