@@ -2,72 +2,94 @@ import { motion, useScroll, useTransform } from 'motion/react';
 
 export default function Hero() {
   const { scrollYProgress } = useScroll();
-  const scale = useTransform(scrollYProgress, [0, 0.35], [1, 0.965]);
-  const opacity = useTransform(scrollYProgress, [0, 0.22], [1, 0.42]);
-  const y = useTransform(scrollYProgress, [0, 0.35], [0, -50]);
-  const textParallax = useTransform(scrollYProgress, [0, 0.5], [0, 40]);
+  const scale = useTransform(scrollYProgress, [0, 0.35], [1, 0.98]);
+  const opacity = useTransform(scrollYProgress, [0, 0.22], [1, 0.35]);
+  const y = useTransform(scrollYProgress, [0, 0.35], [0, -30]);
+  const textParallax = useTransform(scrollYProgress, [0, 0.5], [0, 60]);
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center overflow-hidden">
-      <div className="section relative z-10 grid gap-16 lg:grid-cols-[1.25fr_0.75fr] items-end min-h-screen py-[12vh]">
+      <div className="section relative z-10 grid gap-12 lg:grid-cols-[1.4fr_0.6fr] items-start min-h-screen py-[15vh]">
         <motion.div
           style={{ scale, opacity, y }}
-          className="max-w-6xl"
+          className="max-w-6xl relative"
         >
-          <motion.p
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
+          <div className="absolute -left-8 top-0 h-full w-[1px] bg-gold/20 hidden xl:block" />
+          
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="section-kicker mb-10"
+            className="flex items-center gap-4 mb-12"
           >
-            Digital Artisan / Curator
-          </motion.p>
+            <span className="section-kicker">Vol. 01</span>
+            <div className="h-[1px] w-12 bg-gold/30" />
+            <span className="section-kicker">Digital Artisan / Curator</span>
+          </motion.div>
 
-          <h1 className="font-display text-[clamp(4.25rem,16vw,12.5rem)] leading-[0.82] tracking-[-0.06em] text-foreground uppercase max-w-[10ch]">
-            Crafted
+          <h1 className="font-display text-[clamp(4.5rem,18vw,14rem)] tight-leading super-tracking text-foreground uppercase max-w-[12ch] relative">
+            <span className="relative z-10">Architectural</span>
             <motion.span
               style={{ x: textParallax }}
-              className="block text-[0.84em] text-gold italic normal-case tracking-[-0.03em]"
+              className="block text-[0.78em] text-gold italic normal-case tracking-[-0.02em] -mt-[0.15em] ml-[0.25em]"
             >
-              Precision
+              Archive
             </motion.span>
           </h1>
 
-          <div className="mt-12 max-w-3xl space-y-8">
-            <p className="text-[clamp(1.05rem,2vw,1.6rem)] leading-[1.45] text-foreground-soft max-w-[34ch]">
-              A cinematic portfolio shaped like an editorial object: measured, atmospheric, and authored with restraint.
-            </p>
-            <div className="section-rule w-40" />
-            <p className="font-mono text-[0.65rem] uppercase tracking-[0.38em] text-muted max-w-[56ch] leading-7">
-              Smooth narrative pacing, layered depth, and deliberate transitions built to feel premium within seconds.
-            </p>
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-[1fr_200px] gap-12 items-end">
+            <div className="space-y-10">
+              <p className="text-[clamp(1.15rem,2.2vw,1.8rem)] leading-[1.35] text-foreground-soft max-w-[30ch]">
+                A practice defined by the tension between raw material and precise composition.
+              </p>
+              <div className="flex gap-12 pt-4">
+                <div className="space-y-2">
+                  <p className="font-mono text-[0.55rem] uppercase tracking-widest text-muted">Coordinates</p>
+                  <p className="font-mono text-[0.65rem] text-gold">40.7128° N, 74.0060° W</p>
+                </div>
+                <div className="space-y-2">
+                  <p className="font-mono text-[0.55rem] uppercase tracking-widest text-muted">Status</p>
+                  <p className="font-mono text-[0.65rem] text-gold">Active / Production</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="hidden md:block">
+              <p className="font-mono text-[0.6rem] leading-relaxed text-muted uppercase tracking-[0.25em] vertical-text transform rotate-180 origin-center">
+                Built with intentional restraint.
+              </p>
+            </div>
           </div>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
-          className="lg:justify-self-end w-full max-w-md editorial-frame rounded-[2rem] p-7 md:p-9"
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.45, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          className="lg:mt-[10vh] editorial-frame arch-border rounded-sm p-8 md:p-10 relative overflow-hidden"
         >
-          <div className="space-y-10">
+          <div className="absolute top-0 right-0 p-4 opacity-10">
+             <div className="font-mono text-[4rem] leading-none tracking-tighter">ARCH</div>
+          </div>
+          
+          <div className="space-y-12 relative z-10">
             <div>
-              <p className="section-kicker mb-3">Overview</p>
-              <p className="text-foreground-soft text-lg leading-8">
-                This experience balances motion, typography, and atmosphere so the work feels edited, not assembled.
+              <p className="section-kicker mb-4 text-gold/60">Overview / 01</p>
+              <p className="text-foreground-soft text-xl leading-[1.6] italic font-display">
+                This space is an archive of digital artifacts, measured and authored to feel permanent.
               </p>
             </div>
 
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="space-y-6 pt-6 border-t border-white/5">
               {[
-                ['Format', 'Single-page editorial site'],
-                ['Mood', 'Dark, cinematic, restrained'],
-                ['Motion', 'Slow scroll-linked transitions'],
-                ['System', 'React / TypeScript / Motion'],
+                ['Format', 'Editorial Object'],
+                ['Mood', 'Industrial Luxury'],
+                ['Motion', 'Staggered Construction'],
               ].map(([label, value]) => (
-                <div key={label} className="space-y-2">
-                  <div className="font-mono text-[0.6rem] uppercase tracking-[0.35em] text-muted">{label}</div>
-                  <div className="text-foreground text-sm leading-6">{value}</div>
+                <div key={label} className="flex justify-between items-baseline gap-4">
+                  <span className="font-mono text-[0.55rem] uppercase tracking-[0.3em] text-muted">{label}</span>
+                  <span className="h-[1px] flex-grow bg-white/5" />
+                  <span className="text-foreground text-[0.7rem] uppercase tracking-wider">{value}</span>
                 </div>
               ))}
             </div>
@@ -76,16 +98,17 @@ export default function Hero() {
       </div>
 
       <motion.div
-        animate={{ opacity: [0.18, 0.3, 0.18], scale: [1, 1.02, 1] }}
-        transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute -left-24 top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(200,162,106,0.16),transparent_68%)] blur-3xl"
+        animate={{ opacity: [0.12, 0.22, 0.12] }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-gold/5 to-transparent pointer-events-none"
       />
 
       <motion.div
-        style={{ y: useTransform(scrollYProgress, [0, 0.2], [0, 40]) }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-[0.6rem] uppercase tracking-[0.55em] text-muted"
+        style={{ y: useTransform(scrollYProgress, [0, 0.2], [0, 60]) }}
+        className="absolute bottom-12 left-8 font-mono text-[0.55rem] uppercase tracking-[0.6em] text-muted flex items-center gap-6"
       >
-        Scroll to enter the archive
+        <div className="h-12 w-[1px] bg-gold/40" />
+        Enter the Archive
       </motion.div>
     </section>
   );

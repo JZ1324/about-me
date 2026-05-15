@@ -1,100 +1,129 @@
 import { Canvas, useFrame } from '@react-three/fiber';
-import { PerspectiveCamera } from '@react-three/drei';
+import { PerspectiveCamera, Float } from '@react-three/drei';
 import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 
-function SoftOrb({
+function TechnicalArtifact({
   position,
-  scale,
-  color,
-  speed = 0.1,
+  rotation = [0, 0, 0],
+  scale = 1,
 }: {
   position: [number, number, number];
-  scale: number;
-  color: string;
-  speed?: number;
+  rotation?: [number, number, number];
+  scale?: number;
 }) {
-  const ref = useRef<THREE.Mesh>(null);
+  const meshRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
-    if (!ref.current) return;
+    if (!meshRef.current) return;
     const time = state.clock.getElapsedTime();
-    ref.current.position.y = position[1] + Math.sin(time * speed + position[0]) * 0.14;
-    ref.current.rotation.x = time * 0.05;
-    ref.current.rotation.y = time * 0.08;
+    meshRef.current.rotation.y = rotation[1] + time * 0.15;
+    meshRef.current.rotation.x = rotation[0] + Math.sin(time * 0.2) * 0.1;
   });
 
   return (
-    <mesh ref={ref} position={position} scale={scale}>
-      <sphereGeometry args={[1, 48, 48]} />
-      <meshPhysicalMaterial
-        color={color}
-        roughness={0.68}
-        metalness={0.08}
-        transmission={0.38}
+    <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+      <mesh ref={meshRef} position={position} rotation={rotation} scale={scale}>
+        <octahedronGeometry args={[1, 0]} />
+        <meshPhysicalMaterial
+          color="#c8a26a"
+          wireframe
+          transparent
+          opacity={0.15}
+          emissive="#c8a26a"
+          emissiveIntensity={0.5}
+        />
+      </mesh>
+    </Float>
+  );
+}
+
+function PointCloud() {
+  const pointsRef = useRef<THREE.Points>(null);
+
+  const [positions, colors] = useMemo(() => {
+    const pos = new Float32Array(1500 * 3);
+    const cols = new Float32Array(1500 * 3);
+    const colorGold = new THREE.Color('#c8a26a');
+    const colorWhite = new THREE.Color('#f2ede4');
+
+    for (let i = 0; i < 1500; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 40;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 40;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 20 - 10;
+
+      const mixedColor = Math.random() > 0.8 ? colorGold : colorWhite;
+      cols[i * 3] = mixedColor.r;
+      cols[i * 3 + 1] = mixedColor.g;
+      cols[i * 3 + 2] = mixedColor.b;
+    }
+    return [pos, cols];
+  }, []);
+
+  useFrame((state) => {
+    if (!pointsRef.current) return;
+    pointsRef.current.rotation.y = state.clock.getElapsedTime() * 0.02;
+  });
+
+  return (
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={positions.length / 3}
+          array={positions}
+          itemSize={3}
+        />
+        <bufferAttribute
+          attach="attributes-color"
+          count={colors.length / 3}
+          array={colors}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        size={0.015}
+        vertexColors
         transparent
-        opacity={0.24}
+        opacity={0.4}
+        sizeAttenuation
+        depthWrite={false}
       />
-    </mesh>
+    </points>
   );
 }
 
 function BackgroundScene() {
-  const group = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    if (!group.current) return;
-    const time = state.clock.getElapsedTime();
-    group.current.rotation.y = Math.sin(time * 0.03) * 0.08;
-    group.current.rotation.x = Math.sin(time * 0.02) * 0.04;
-  });
-
-  const specks = useMemo(
-    () =>
-      Array.from({ length: 80 }, (_, index) => ({
-        position: [
-          (Math.random() - 0.5) * 26,
-          (Math.random() - 0.5) * 16,
-          -6 - Math.random() * 16,
-        ] as [number, number, number],
-        scale: 0.04 + Math.random() * 0.08,
-        color: index % 4 === 0 ? '#c8a26a' : '#f2ede4',
-      })),
-    [],
-  );
-
   return (
-    <group ref={group}>
-      <fog attach="fog" args={['#09090a', 8, 24]} />
-      <ambientLight intensity={0.32} color="#c8a26a" />
-      <directionalLight position={[2, 4, 5]} intensity={1.15} color="#f2ede4" />
-      <pointLight position={[-4, 2, 6]} intensity={1.4} color="#c8a26a" distance={18} />
-      <pointLight position={[3, -2, 8]} intensity={0.75} color="#8d6d4d" distance={22} />
-      <mesh position={[0, -4.5, -8]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[24, 24]} />
-        <meshBasicMaterial color="#060607" transparent opacity={0.42} />
+    <>
+      <color attach="background" args={['#0a0a0b']} />
+      <fog attach="fog" args={['#0a0a0b', 5, 25]} />
+      <ambientLight intensity={0.2} />
+      <pointLight position={[10, 10, 10]} intensity={1.5} color="#c8a26a" />
+      <pointLight position={[-10, -10, -5]} intensity={0.8} color="#f2ede4" />
+      
+      <TechnicalArtifact position={[-6, 2, -5]} scale={1.2} />
+      <TechnicalArtifact position={[8, -4, -8]} scale={2.5} rotation={[0.5, 0.5, 0]} />
+      <TechnicalArtifact position={[2, 6, -12]} scale={4} rotation={[0, 1, 0.5]} />
+      
+      <PointCloud />
+      
+      <mesh position={[0, 0, -15]} rotation={[0, 0, 0]}>
+        <planeGeometry args={[100, 100]} />
+        <meshBasicMaterial color="#000000" transparent opacity={0.5} />
       </mesh>
-      <SoftOrb position={[-3.8, 0.5, -5]} scale={1.7} color="#c8a26a" speed={0.09} />
-      <SoftOrb position={[4, -1, -8]} scale={2.3} color="#f2ede4" speed={0.07} />
-      <SoftOrb position={[0.2, 2.3, -12]} scale={3.2} color="#8d6d4d" speed={0.05} />
-      {specks.map((speck, index) => (
-        <mesh key={index} position={speck.position} scale={speck.scale}>
-          <sphereGeometry args={[1, 8, 8]} />
-          <meshBasicMaterial color={speck.color} transparent opacity={0.18} depthWrite={false} />
-        </mesh>
-      ))}
-    </group>
+    </>
   );
 }
 
 export default function Background3D() {
   return (
-    <div className="fixed inset-0 -z-10 pointer-events-none opacity-90">
-      <Canvas dpr={[1, 1.5]} gl={{ antialias: true, alpha: true }}>
-        <PerspectiveCamera makeDefault position={[0, 0, 11]} fov={35} />
+    <div className="fixed inset-0 -z-10 pointer-events-none">
+      <Canvas dpr={[1, 1.5]} gl={{ antialias: true }}>
+        <PerspectiveCamera makeDefault position={[0, 0, 15]} fov={40} />
         <BackgroundScene />
       </Canvas>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(9,9,10,0.18)_52%,rgba(9,9,10,0.62)_100%)]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
     </div>
   );
 }
